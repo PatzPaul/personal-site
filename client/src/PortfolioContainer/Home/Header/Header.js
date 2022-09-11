@@ -22,7 +22,7 @@ export default function Header() {
   const getHeaderOptions = () => {
     return TOTAL_SCREENS.map((Screen, i) => (
       <div
-        key={Screen.screen_name}
+        key={i + Screen.screen_name}
         className={getHeaderOptionsClasses(i)}
         onClick={() => switchScreen(i, Screen)}
       >

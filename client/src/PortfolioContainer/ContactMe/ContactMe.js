@@ -33,7 +33,7 @@ export default function ContactMe(props) {
   const handleMessage = (e) => {
     setMessage(e.target.value);
   };
-  console.log(name);
+  // console.log(name);
   const submitForm = async (e) => {
     e.preventDefault();
     try {
@@ -43,7 +43,8 @@ export default function ContactMe(props) {
         message,
       };
       setBool(true);
-      const res = await axios.post(`/contact`, data);
+      const res = await axios.post(`http://localhost:5000/api/v1/portfolio/contact`, data);
+
       if (name.length === 0 || email.length === 0 || message.length === 0) {
         setBanner(res.data.msg);
         toast.error(res.data.msg);
