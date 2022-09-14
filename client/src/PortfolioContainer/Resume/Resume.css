@@ -130,7 +130,7 @@
   flex-wrap: wrap;
 }
 .skill-percentage {
-  postion: relative;
+  position: relative;
   height: 15px;
   width: 70%;
   background-color: var(--orange);
