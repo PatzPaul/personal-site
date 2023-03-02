@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
   );
 }
+
 app.get('/api/v1/portfolio', (req, res) => [
   res.status(200).json({
     data: 'success'
