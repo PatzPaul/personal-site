@@ -14,6 +14,19 @@ app.use(cors())
 const port = process.env.PORT || 4000;
 app.use(express.json());
 
+const options = {
+  method: 'GET',
+  headers: {
+    'Host': '3000-patzpaul-personalsite-v12fx3wfa4q.ws-eu89b.gitpod.io'
+  }
+};
+
+/*
+app.get("*", (req, res) =>
+req('/', options)
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error)));*/
 
 if (process.env.NODE_ENV === "production") {
   app.use(morgan('dev'))
@@ -31,5 +44,5 @@ app.get('/api/v1/portfolio', (req, res) => [
 app.use('/api/v1/portfolio', contactRoute)
 
 app.listen(port, () => {
-  console.log(`server listing to port ${port}`)
+  console.log(`server listening to port ${port}`)
 });
