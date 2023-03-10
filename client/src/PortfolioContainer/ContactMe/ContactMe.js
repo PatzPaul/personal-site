@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Typical from "react-typical";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -43,8 +43,7 @@ export default function ContactMe(props) {
         message,
       };
       setBool(true);
-      const res = await axios.post(`http://localhost:5000/api/v1/portfolio/contact`, data);
-
+      const res = await axios.post(`http://localhost:5000/api/contact`, data);
       if (name.length === 0 || email.length === 0 || message.length === 0) {
         setBanner(res.data.msg);
         toast.error(res.data.msg);
@@ -62,6 +61,12 @@ export default function ContactMe(props) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    return () => {
+      /* UNSUBSCRIBE THE SUBSCRIPTIONS */
+      fadeInSubscription.unsubscribe();
+    };
+  }, [fadeInSubscription]);
 
   return (
     <div className="main-container fade-in" id={props.id || ""}>

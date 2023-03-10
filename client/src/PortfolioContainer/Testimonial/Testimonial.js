@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useEffect } from "react";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
@@ -41,7 +41,12 @@ export default function Testimonial(props) {
       },
     }
   }
-
+  useEffect(() => {
+    return () => {
+      /* UNSUBSCRIBE THE SUBSCRIPTIONS */
+      fadeInSubscription.unsubscribe();
+    };
+  }, [fadeInSubscription]);
   return (
     <div>
       <ScreenHeading
@@ -197,7 +202,7 @@ export default function Testimonial(props) {
         </div>
       </section>
       <div className="footer-image">
-        <img src={shape} alt="Photo not responding" />
+        <img src={shape} alt="Not responding" />
       </div>
     </div>
   );
