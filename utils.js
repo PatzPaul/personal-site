@@ -1,3 +1,6 @@
+require("dotenv").config({
+    path: './.env'
+  });
 const nodemailer = require('nodemailer');
 
 // const transport = nodemailer.createTransport({
@@ -10,12 +13,19 @@ const nodemailer = require('nodemailer');
 // });
 
 const transport = nodemailer.createTransport({
-    host: "smtp.mailtrap.io",
-    port: 2525,
+    host: process.env.MAIL_HOST,
+    port: process.env.MAIL_PORT,
     auth: {
-        user: "d9670986164039",
-        pass: "2481663e7c145d"
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
     }
 });
+    transport.verify((error,success) => {
+        if (error) {
+            console.error('Mail transport error:', error)
+        } else {
+            console.log('Server is ready to send emails')
+        }
+    })
 
 module.exports = transport

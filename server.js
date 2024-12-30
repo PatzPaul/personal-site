@@ -17,7 +17,7 @@ app.use(express.json());
 const options = {
   method: 'GET',
   headers: {
-    'Host': '3000-patzpaul-personalsite-v12fx3wfa4q.ws-eu89b.gitpod.io'
+    'Host': 'http://localhost:3000'
   }
 };
 

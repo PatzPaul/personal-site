@@ -1,20 +1,35 @@
 const transport = require('../utils')
+require("dotenv").config({
+    path: './.env'
+  });
 
-const contactHandler = (req, res) => {
-    const { name, email, message } = req.body
+const contactHandler = async (req, res) => {
+    const { name, email, message } = req.body;
 
-    if (!name.trim() || !email.trim() || !message.trim()) {
-        return res.json({
+    // Improved validation with trimming 
+    if (!name?.trim() || !email?.trim() || !message?.trim()) {
+        return res.status(400).json({
             status: 'fail',
             msg: 'Please Fill All The Fields!'
         })
     }
 
-    let mailOptions = {
-        from: email,
-        to: "pathefister@gmail.com",
-        subject: `message from ${name}`,
-        html: `
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({
+            status: 'fail',
+            msg: 'Please provide a valid email address!'
+        })
+    }
+
+    try {
+        // Email options
+        const mailOptions = {
+            from: email,
+            to: process.env.ADMIN_EMAIL,
+            subject: `message from ${name}`,
+            html: `
             <h3>Informations<h3/>
             <ul>
             <li>Name: ${name}<li/>
@@ -23,21 +38,23 @@ const contactHandler = (req, res) => {
             <h3>Message</h3>
             <p>${message}<p/>
             `,
-    };
+        };
+        // Send Email 
+        await transport.sendMail(mailOptions);
 
-    transport.sendMail(mailOptions, (error) => {
-        try {
-            if (error)
-                return res.status(400).json({ msg: "Please Fill All The Fields!" });
-            res.status(200).json({ msg: "Thank You For Contacting Patrick." });
-        } catch (error) {
-            if (error) return res.status(500).json({ msg: "There is server error" });
-        }
-    });
 
-    res.status(201).json({
-        status: 'success'
-    })
-}
+        return res.status(200).json({
+            status: 'success',
+            msg: 'Thank you for your message. I will get back to you soon!'
+        });
+
+    } catch (error) {
+        console.error('Email error:', error);
+        return res.status(500).json({
+            status:'error',
+            msg: 'Failed to send message. Please try again later.'
+        });
+    }
+};
 
 module.exports = contactHandler
